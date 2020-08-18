@@ -1,0 +1,36 @@
+language: node_js
+services:
+  - docker
+cache:
+  directories:
+    - node_modules
+    - templates/shared/node_modules
+    - templates/bare/node_modules
+    - templates/trust/node_modules
+    - tempaltes/company/node_modules
+    - templates/company-board/node_modules
+    - templates/membership/node_modules
+    - templates/reputation/node_modules
+notifications:
+  email: false
+node_js:
+  - '9'
+install:
+  - travis_wait 60 npm install
+jobs:
+  include:
+    - stage: tests
+      script: npm run lint
+      name: "Lint"
+    - script: npm run test:bare
+      name: "Bare"
+    - script: npm run test:trust
+      name: "Trust"
+    - script: npm run test:company
+      name: "Company"
+    - script: npm run test:company:board
+      name: "Company Board"
+    - script: npm run test:membership
+      name: "Membership"
+    - script: npm run test:reputation
+      name: "Reputation"
